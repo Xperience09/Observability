@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.obeservability.Trace.TraceApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-03-09T09:25:41" hostname="Xperiences-MacBook-Air.local" time="1.691">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.obeservability.Trace.TraceApplicationTests" time="1.691"/>
+  <system-out><![CDATA[14:55:37.710 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.obeservability.Trace.TraceApplicationTests]: TraceApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:55:37.903 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.obeservability.Trace.TraceApplication for test class com.obeservability.Trace.TraceApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.3)
+
+2024-03-09T14:55:38.633+05:30  INFO 2794 --- [TracingProject] [    Test worker] c.o.Trace.TraceApplicationTests          : Starting TraceApplicationTests using Java 17.0.10 with PID 2794 (started by xperience09 in /Users/xperience09/Java projects/Trace)
+2024-03-09T14:55:38.638+05:30  INFO 2794 --- [TracingProject] [    Test worker] c.o.Trace.TraceApplicationTests          : No active profile set, falling back to 1 default profile: "default"
+2024-03-09T14:55:41.599+05:30  INFO 2794 --- [TracingProject] [    Test worker] c.o.Trace.TraceApplicationTests          : Started TraceApplicationTests in 3.434 seconds (process running for 6.031)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

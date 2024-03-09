@@ -1,0 +1,58 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.3'
+	id 'io.spring.dependency-management' version '1.1.4'
+	id 'application'
+}
+
+
+group = 'com.obeservability'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+
+	//Opentelemetry
+	implementation(platform("io.opentelemetry:opentelemetry-bom:1.35.0"))
+	implementation("io.opentelemetry:opentelemetry-api")
+
+	//rate limiter
+	implementation 'org.aspectj:aspectjweaver:1.9.7'
+	implementation 'com.bucket4j:bucket4j-core:8.1.0'
+
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+//OpenTelemetry JVM args
+tasks.withType(JavaExec) {
+	jvmArgs = [
+			"-javaagent:./opentelemetry-javaagent.jar",
+			"-Dotel.traces.exporter=none",
+			"-Dotel.metrics.exporter=none",
+			"-Dotel.logs.exporter=logging"
+	]
+}
