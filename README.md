@@ -1,4 +1,4 @@
-# Observability
+# Observability - Java
 Demo project for Observability implementation - traces, rate limiter
 
 Tracing -> Opentelemetry [JVM included in build.gradle]
