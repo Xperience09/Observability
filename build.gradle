@@ -28,6 +28,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	//Swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
@@ -37,9 +38,15 @@ dependencies {
 	implementation("io.opentelemetry:opentelemetry-api")
 
 	//rate limiter
-	implementation 'org.aspectj:aspectjweaver:1.9.7'
-	implementation 'com.bucket4j:bucket4j-core:8.1.0'
+	implementation 'com.bucket4j:bucket4j-core:8.10.1'
+	implementation 'com.github.vladimir-bukhtoyarov:bucket4j-hazelcast:7.0.0'
+	implementation 'javax.cache:cache-api:1.0.0'
+	implementation 'com.hazelcast:hazelcast:5.3.5'
 
+	implementation 'io.cucumber:cucumber-core:7.16.1'
+
+//	watchtower
+//	implementation 'com.example:SimpleWatchTowerEvent:1.0.0'
 
 }
 
@@ -48,7 +55,7 @@ tasks.named('test') {
 }
 
 //OpenTelemetry JVM args
-tasks.withType(JavaExec) {
+tasks.withType(JavaExec).configureEach {
 	jvmArgs = [
 			"-javaagent:./opentelemetry-javaagent.jar",
 			"-Dotel.traces.exporter=none",

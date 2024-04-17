@@ -1,7 +1,6 @@
 package com.obeservability.Trace.RestAPI;
 
 
-import com.obeservability.Trace.Config.RateLimited;
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Refill;
@@ -22,10 +21,12 @@ public class RestController {
     private final Bucket bucket;
 
     public RestController() {
-        Bandwidth limit = Bandwidth.classic(1, Refill.greedy(1, Duration.ofSeconds(60)));
+        Bandwidth limit = Bandwidth.classic(10, Refill.greedy(10, Duration.ofSeconds(60)));
         this.bucket = Bucket.builder()
                 .addLimit(limit)
                 .build();
+       long remaining = this.bucket.getAvailableTokens();
+       logger.info("Remaining tokens: {}",remaining);
     }
 
 //    @RateLimited(rate = 1, seconds = 60)
@@ -34,7 +35,7 @@ public class RestController {
         if (bucket.tryConsume(1)) {
             return ResponseEntity.ok("Hello");
         }
-        logger.info("{} : {}",className,HttpStatus.TOO_MANY_REQUESTS);
+//        logger.info("{} : {}",className,HttpStatus.TOO_MANY_REQUESTS);
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
     }
 
