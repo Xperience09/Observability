@@ -1,11 +1,12 @@
 package com.obeservability.Trace.RestAPI;
 
 
+import com.obeservability.Trace.dtoServices.DataProcess;
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Refill;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +15,9 @@ import java.time.Duration;
 
 
 @org.springframework.web.bind.annotation.RestController
+@Slf4j
 public class RestController {
     String className = RestController.class.getName();
-    private Logger logger = LoggerFactory.getLogger(RestController.class);
 
     private final Bucket bucket;
 
@@ -25,26 +26,29 @@ public class RestController {
         this.bucket = Bucket.builder()
                 .addLimit(limit)
                 .build();
-       long remaining = this.bucket.getAvailableTokens();
-       logger.info("Remaining tokens: {}",remaining);
+        long remaining = this.bucket.getAvailableTokens();
+        log.info("Remaining tokens: {}", remaining);
     }
 
-//    @RateLimited(rate = 1, seconds = 60)
-    @GetMapping(path = "/hello")
-    public ResponseEntity<String> hello() {
+    //    @RateLimited(rate = 1, seconds = 60)
+    @GetMapping(path = "/triggerData")
+    public ResponseEntity<String> triggerData() {
+        log.info("{} : API=triggerData()", className);
         if (bucket.tryConsume(1)) {
+            DataProcess dataProcess = new DataProcess();
+            dataProcess.dataFillup();
             return ResponseEntity.ok("Hello");
         }
-//        logger.info("{} : {}",className,HttpStatus.TOO_MANY_REQUESTS);
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
     }
 
-    @GetMapping(path = "/bye")
-    public ResponseEntity<String> bye() {
+    @GetMapping(path = "/test")
+    public ResponseEntity<String> triggerData2() {
+        log.info("{} : API=triggerData2()", className);
         if (bucket.tryConsume(1)) {
             return ResponseEntity.ok("Bye");
         }
-        logger.info("{} : {}",className,HttpStatus.TOO_MANY_REQUESTS);
+        log.info("{} : {}", className, HttpStatus.TOO_MANY_REQUESTS);
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
     }
 }

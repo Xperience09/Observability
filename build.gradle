@@ -28,7 +28,13 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+//	Security 	-		(this will generate a password in the logs and will verify during project startup ie. swagger)
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.20.0'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.20.0'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.20.0'
 
 	//Swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
@@ -43,7 +49,7 @@ dependencies {
 	implementation 'javax.cache:cache-api:1.0.0'
 	implementation 'com.hazelcast:hazelcast:5.3.5'
 
-	implementation 'io.cucumber:cucumber-core:7.16.1'
+//	implementation 'io.cucumber:cucumber-core:7.16.1'
 
 //	watchtower
 //	implementation 'com.example:SimpleWatchTowerEvent:1.0.0'
@@ -60,6 +66,6 @@ tasks.withType(JavaExec).configureEach {
 			"-javaagent:./opentelemetry-javaagent.jar",
 			"-Dotel.traces.exporter=none",
 			"-Dotel.metrics.exporter=none",
-			"-Dotel.logs.exporter=logging"
+			"-Dotel.logs.exporter=none"
 	]
 }
