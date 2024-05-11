@@ -40,8 +40,12 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
 
 	//Opentelemetry
-	implementation(platform("io.opentelemetry:opentelemetry-bom:1.35.0"))
-	implementation("io.opentelemetry:opentelemetry-api")
+	implementation(platform("io.opentelemetry:opentelemetry-bom:1.37.0"));
+	implementation("io.opentelemetry:opentelemetry-api");
+	implementation("io.opentelemetry:opentelemetry-sdk");
+	implementation("io.opentelemetry:opentelemetry-exporter-logging");
+	implementation("io.opentelemetry.semconv:opentelemetry-semconv:1.25.0-alpha");
+	implementation("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure");
 
 	//rate limiter
 	implementation 'com.bucket4j:bucket4j-core:8.10.1'
@@ -61,11 +65,11 @@ tasks.named('test') {
 }
 
 //OpenTelemetry JVM args
-tasks.withType(JavaExec).configureEach {
-	jvmArgs = [
-			"-javaagent:./opentelemetry-javaagent.jar",
-			"-Dotel.traces.exporter=none",
-			"-Dotel.metrics.exporter=none",
-			"-Dotel.logs.exporter=none"
-	]
-}
+//tasks.withType(JavaExec).configureEach {
+//	jvmArgs = [
+//			"-javaagent:./opentelemetry-javaagent.jar",
+//			"-Dotel.traces.exporter=none",
+//			"-Dotel.metrics.exporter=none",
+//			"-Dotel.logs.exporter=none"
+//	]
+//}
