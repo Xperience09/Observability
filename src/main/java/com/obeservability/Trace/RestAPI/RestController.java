@@ -47,10 +47,10 @@ public class RestController {
     public ResponseEntity<String> triggerData(@RequestParam("word") String word) {
         Span span = tracer.spanBuilder("triggerData").startSpan();
         try(Scope scope=span.makeCurrent()) {
-            log.info("{} : API=triggerData()", className);
+            log.info("API=triggerData() traceId={} spanId={}",span.getSpanContext().getTraceId(),span.getSpanContext().getSpanId());
 //            if (bucket.tryConsume(1)) {
 //                dataProcess.dataFillup();
-                return ResponseEntity.ok(String.valueOf(dataProcess.dataFillup(span)));
+                return ResponseEntity.ok(String.valueOf(dataProcess.dataFillup()));
 //            }
 //            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
         }catch (Throwable t){

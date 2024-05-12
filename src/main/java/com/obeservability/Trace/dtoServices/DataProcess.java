@@ -4,6 +4,7 @@ import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Context;
+import io.opentelemetry.context.Scope;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,10 +24,9 @@ public class DataProcess {
         this(OpenTelemetry.noop());
     }
 
-    public Map<String,String> dataFillup(Span span) {
-        Span child = tracer.spanBuilder("child1").setParent(Context.current().with(span)).startSpan();
-        child.makeCurrent();
-        try {
+    public Map<String,String> dataFillup() {
+        Span child = tracer.spanBuilder(getClass().getName()).startSpan();
+        try(Scope scope=child.makeCurrent()) {
 //    defining a map
             Map<String, String> map1 = new HashMap<>();
 
@@ -35,12 +35,12 @@ public class DataProcess {
             map1.put("2", "B");
             map1.put("3", "B");
 
-            log.info(map1.toString());
+//            log.info(map1.toString());
 
 
 //    using entry to obtain a set of key-value pairs
             Set<Map.Entry<String, String>> set1 = map1.entrySet();
-            log.info(set1.toString());
+//            log.info(set1.toString());
 
 //    Stream
 
@@ -50,15 +50,15 @@ public class DataProcess {
                     .filter(e -> "A".equals(e.getValue()))
                     .map(Map.Entry::getKey)
                     .findAny();
-            log.info("s1: " + s.get());  //this returned 1
+//            log.info("s1: " + s.get());  //this returned 1
 
 //        find multiple results
             List<String> s2 = map1.entrySet().stream()
                     .filter(e -> "B".equals(e.getValue()))
                     .map(Map.Entry::getKey)
                     .toList();
-            log.info("traceId={} span={} s2: {}",Span.current().getSpanContext().getTraceId(),Span.current().getSpanContext().getSpanId(), s2.toString());
-            log.info(processTwo.printWord("Executed!!!"));
+            log.info("traceId={} span={} s2: {}",child.getSpanContext().getTraceId(),child.getSpanContext().getSpanId(), s2.toString());
+            log.info(processTwo.printWord("hello"));
             return map1;
         }finally {
             child.end();
